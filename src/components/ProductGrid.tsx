@@ -1,0 +1,1 @@
+import ProductCard from "./ProductCard"; import {Product} from "../types"; export default function ProductGrid({products}:{products:Product[]}){return products.length?<div className="product-grid">{products.map(p=><ProductCard key={p.id} product={p}/>)}</div>:<div className="empty"><h3>No products found.</h3><p>Try another search or category.</p></div>}

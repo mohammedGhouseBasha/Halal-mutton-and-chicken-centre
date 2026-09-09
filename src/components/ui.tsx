@@ -1,0 +1,3 @@
+import { ReactNode } from "react";
+export const Button=({children,onClick,variant="primary",type="button",disabled=false,className=""}:{children:ReactNode;onClick?:()=>void;variant?:"primary"|"outline"|"ghost"|"danger";type?:"button"|"submit";disabled?:boolean;className?:string})=><button type={type} onClick={onClick} disabled={disabled} className={`btn ${variant} ${className}`}>{children}</button>;
+export const Badge=({children}:{children:ReactNode})=><span className="badge">{children}</span>;
