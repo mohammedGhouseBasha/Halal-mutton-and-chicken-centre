@@ -18,7 +18,9 @@ export const OrderProvider=({children}:{children:ReactNode})=>{
 
  const createOrder=(o:Omit<Order,"id">)=>{
   const order:Order={...o,id:`FMH-${Math.floor(10000+Math.random()*89999)}`,createdAt:Date.now()};
-  if(db){setDoc(doc(db,ORDERS_COLLECTION,order.id),order)}
+  // Firestore rejects any field that is exactly `undefined` (e.g. an item with
+  // no special instructions typed in) — this strips those out before saving.
+  if(db){setDoc(doc(db,ORDERS_COLLECTION,order.id),JSON.parse(JSON.stringify(order)))}
   else{setOrders(x=>{const n=[order,...x];save(localKey,n);return n})}
   return order;
  };
