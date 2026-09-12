@@ -39,11 +39,13 @@ service cloud.firestore {
     }
 
     match /orders/{orderId} {
-      // Order tracking looks up an order by its ID with no login (see
-      // Tracking.tsx) — this keeps that working, but means anyone who knows
-      // an order ID can read its contents. Locking that down further needs a
-      // real "my orders" auth flow, which is out of scope for this pass.
-      allow read: if true;
+      // Order tracking looks up ONE order by its exact ID with no login (see
+      // Tracking.tsx / Confirmation.tsx) — `get` stays public for that. But
+      // `list` (the full collection) is admin-only, so no visitor can dump
+      // every customer's name/phone/address at once; they'd still need to
+      // already know a specific order ID to read that one order.
+      allow get: if true;
+      allow list: if isAdmin();
 
       // Anonymous customers create their own order at checkout, but the
       // order must start out clean: correct id, "Pending" status, and a
