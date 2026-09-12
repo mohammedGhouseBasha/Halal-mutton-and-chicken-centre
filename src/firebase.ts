@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -14,4 +15,7 @@ const firebaseConfig = {
 // app keeps working the old way (saved per-device) instead of crashing.
 export const isFirebaseConfigured = Boolean(firebaseConfig.apiKey && firebaseConfig.projectId);
 
-export const db = isFirebaseConfigured ? getFirestore(initializeApp(firebaseConfig)) : null;
+const app = isFirebaseConfigured ? initializeApp(firebaseConfig) : null;
+
+export const db = app ? getFirestore(app) : null;
+export const auth = app ? getAuth(app) : null;
